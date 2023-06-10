@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API CALL COUNTRY</title>
+    <style>
+        body{
+            background-color: rgb(170, 221, 241);
+        }
+        #container{
+            background-color:rgb(170, 221, 241);
+            display:flex;
+            justify-content: center;
+        }
+        .card-body-circle span{
+            color : var(--primary-color);
+            font-weight: 400;
+
+        }
+/* img{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+} */
+.card-body-text{
+    text-align:center;
+    color : var(--primary-color);
+    font-size: 1.6rem;
+    margin-top: 0;
+    margin-bottom: 2rem;
+}
+
+
+.card-body-title{
+    text-align: center;
+}
+.card-footer{
+    display: flex;
+    justify-content: space-around;
+}
+
+
+.card-footer-social{
+    text-align: center;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+
+.card-footer-social p{
+            letter-spacing: 1px;
+        }
+
+        .card:hover{
+            transform: scale(0.9, 0.9);
+            box-shadow: 5px 5px 30px 15px rgba(0,0,0,0.25), 
+                      -5px -5px 30px 15px rgba(0,0,0,0.22);
+        }
+    </style>
+</head>
+<body>
+
+        <div id="container">
+            
+        </div>
+    <script>
+        /* XMLHttpRequest (XHR) objects are used to interact with servers. 
+        You can retrieve data from a URL without having to do a full page refresh. 
+        This enables a Web page to update just part of a page without disrupting what the user is doing.
+    o   XMLHttpRequest is used heavily in AJAX programming.
+    o   Despite its name, XMLHttpRequest can be used to retrieve any type of data, not just XML.
+
+AJAX 
+o   Asynchronous JavaScript and XML, or Ajax, is not a technology in itself, but rather an approach to using a number of existing 
+    technologies together, including HTML or XHTML, CSS, JavaScript, DOM, XML, XSLT, and most importantly the XMLHttpRequest object. 
+
+o   When these technologies are combined in the Ajax model, web applications are able to make quick,incremental updates to the UI
+     without reloading the entire browser page. This makes the application faster and more responsive to user actions.
+
+o   Although X in Ajax stands for XML, JSON is preferred because it is lighter in size and is written in JavaScript. 
+    Both JSON and XML are used for packaging information in the Ajax model.
+
+        */
+
+const container = document.querySelector('#container');
+const request = new XMLHttpRequest(); 
+// request.open('GET', "https://restcountries.eu/rest/v2/name/nepal");
+request.open('GET', "https://restcountries.com/v3.1/name/india");
+// request.open('GET', "https://restcountries.com/v3.1/name/nepal");
+request.send();
+
+// to get response
+request.addEventListener('load', function() { // whne webpage loads its calls functions and provide o/p
+//   console.log(this.responseText);
+  const [data] = JSON.parse(this.responseText); //parse is used to convert json in js object
+    console.log(data);
+    console.log(data.capital);
+    const htmlData= `
+    <div id="card">
+                <article class="card">
+                    <div class="card-body">
+                        <img src="${data.flags.png}" alt="flag" class="card-body-img" />
+                        <h1 class="card-body-title"> ${data.name.common} ${data.name.nativeName.hin.common}<span></span></h1>
+                        <p class="card-body-text">Capital : ${data.capital}</p>
+                    </div>
+                    <div class="card-footer">
+                        <div class="card-footer-social">
+                            <h3>${data.currencies.INR.name}</h3>
+                            <p>Currencies</p>
+                        </div>
+                        <div class="card-footer-social">
+                            <h3>${data.population}</h3>
+                            <p>Population</p>
+                        </div>
+                        <div class="card-footer-social">
+                            <h3>${data.languages.hin}</h3>
+                            <p>Languages</p>
+                        </div>
+                    </div>
+                </article>
+            </div>
+            
+            `;
+            container.insertAdjacentHTML('afterbegin',htmlData)
+})
+</script>
+</body>
+</html>
